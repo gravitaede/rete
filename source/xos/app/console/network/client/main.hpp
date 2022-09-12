@@ -13,48 +13,32 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main_opt.hpp
+///   File: main.hpp
 ///
 /// Author: $author$
-///   Date: 5/8/2022
+///   Date: 9/6/2022
 ///////////////////////////////////////////////////////////////////////
-#ifndef XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPT_HPP
-#define XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPT_HPP
+#ifndef XOS_APP_CONSOLE_NETWORK_CLIENT_MAIN_HPP
+#define XOS_APP_CONSOLE_NETWORK_CLIENT_MAIN_HPP
 
-#include "xos/app/console/version/main.hpp"
-#include "xos/lib/rete/version.hpp"
-
-#define XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPTIONS_CHARS_EXTEND \
-
-#define XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPTIONS_OPTIONS_EXTEND \
-
-#define XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPTIONS_CHARS \
-   XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPTIONS_CHARS_EXTEND \
-   XOS_APP_CONSOLE_VERSION_MAIN_OPTIONS_CHARS
-
-#define XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPTIONS_OPTIONS \
-   XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPTIONS_OPTIONS_EXTEND \
-   XOS_APP_CONSOLE_VERSION_MAIN_OPTIONS_OPTIONS
-
-#define XOS_APP_CONSOLE_RETE_VERSION_MAIN_ARGS 0
-#define XOS_APP_CONSOLE_RETE_VERSION_MAIN_ARGV 0,
+#include "xos/app/console/network/client/main_opt.hpp"
 
 namespace xos {
 namespace app {
 namespace console {
-namespace rete {
-namespace version {
+namespace network {
+namespace client {
 
-/// class main_optt
+/// class maint
 template 
-<class TExtends = xos::app::console::version::maint
- <xos::lib::rete::version>, class TImplements = typename TExtends::implements>
+<class TExtends = xos::app::console::network::client::main_opt, 
+ class TImplements = typename TExtends::implements>
 
-class exported main_optt: virtual public TImplements, public TExtends {
+class exported maint: virtual public TImplements, public TExtends {
 public:
     typedef TImplements implements;
     typedef TExtends extends;
-    typedef main_optt derives;
+    typedef maint derives;
 
     typedef typename extends::char_t char_t;
     typedef typename extends::end_char_t end_char_t;
@@ -65,13 +49,13 @@ public:
     typedef typename extends::file_t file_t;
 
     /// constructor / destructor
-    main_optt(): default_run_(0) {
+    maint(): run_(0) {
     }
-    virtual ~main_optt() {
+    virtual ~maint() {
     }
 private:
-    main_optt(const main_optt& copy) {
-        throw xos::exception(exception_unexpected);
+    maint(const maint& copy) {
+        throw exception(exception_unexpected);
     }
 
 protected:
@@ -80,27 +64,25 @@ protected:
     typedef typename extends::err_writer_t err_writer_t;
 
     /// ...run
-    int (derives::*default_run_)(int argc, char_t** argv, char_t** env);
-    virtual int default_run(int argc, char_t** argv, char_t** env) {
+    int (derives::*run_)(int argc, char_t** argv, char_t** env);
+    virtual int run(int argc, char_t** argv, char_t** env) {
         int err = 0;
-        if ((default_run_)) {
-            err = (this->*default_run_)(argc, argv, env);
+        if ((run_)) {
+            err = (this->*run_)(argc, argv, env);
         } else {
-            if (!(err = this->all_version_run(argc, argv, env))) {
-                err = this->all_usage(argc, argv, env);
-            }
+            err = extends::run(argc, argv, env);
         }
         return err;
     }
 
 protected:
-}; /// class main_optt
-typedef main_optt<> main_opt;
+}; /// class maint
+typedef maint<> main;
 
-} /// namespace version
-} /// namespace rete
+} /// namespace client
+} /// namespace network
 } /// namespace console
 } /// namespace app
 } /// namespace xos
 
-#endif /// ndef XOS_APP_CONSOLE_RETE_VERSION_MAIN_OPT_HPP 
+#endif /// ndef XOS_APP_CONSOLE_NETWORK_CLIENT_MAIN_HPP
