@@ -13,48 +13,48 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: network.pri
+#   File: networkd.pri
 #
 # Author: $author$
-#   Date: 9/5/2022
+#   Date: 9/13/2022
 #
-# generic QtCreator project .pri file for framework rete executable network
+# generic QtCreator project .pri file for framework rete executable networkd
 ########################################################################
 
 ########################################################################
-# network
+# networkd
 
-# network TARGET
+# networkd TARGET
 #
-network_TARGET = network
+networkd_TARGET = networkd
 
-# network INCLUDEPATH
+# networkd INCLUDEPATH
 #
-network_INCLUDEPATH += \
+networkd_INCLUDEPATH += \
 $${rete_INCLUDEPATH} \
 
-# network DEFINES
+# networkd DEFINES
 #
-network_DEFINES += \
+networkd_DEFINES += \
 $${rete_DEFINES} \
 DEFAULT_LOGGING_LEVELS_ERROR \
 XOS_CONSOLE_MAIN_MAIN \
 
 ########################################################################
-# network OBJECTIVE_HEADERS
+# networkd OBJECTIVE_HEADERS
 #
-#network_OBJECTIVE_HEADERS += \
-#$${RETE_SRC}/xos/app/console/network/main.hh \
+#networkd_OBJECTIVE_HEADERS += \
+#$${RETE_SRC}/xos/app/console/networkd/main.hh \
 
-# network OBJECTIVE_SOURCES
+# networkd OBJECTIVE_SOURCES
 #
-#network_OBJECTIVE_SOURCES += \
-#$${RETE_SRC}/xos/app/console/network/main.mm \
+#networkd_OBJECTIVE_SOURCES += \
+#$${RETE_SRC}/xos/app/console/networkd/main.mm \
 
 ########################################################################
-# network HEADERS
+# networkd HEADERS
 #
-network_HEADERS += \
+networkd_HEADERS += \
 $${RETE_SRC}/xos/network/sockets/interfaces.hpp \
 $${RETE_SRC}/xos/network/sockets/os/interfaces.hpp \
 \
@@ -72,23 +72,23 @@ $${RETE_SRC}/xos/app/console/network/sockets/client/main.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/server/main_opt.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/server/main.hpp \
 
-# network SOURCES
+# networkd SOURCES
 #
-network_SOURCES += \
+networkd_SOURCES += \
 $${RETE_SRC}/xos/network/sockets/os/interfaces.cpp \
 \
-$${RETE_SRC}/xos/app/console/network/sockets/client/main_opt.cpp \
-$${RETE_SRC}/xos/app/console/network/sockets/client/main.cpp \
+$${RETE_SRC}/xos/app/console/network/sockets/server/main_opt.cpp \
+$${RETE_SRC}/xos/app/console/network/sockets/server/main.cpp \
 
 ########################################################################
-# network FRAMEWORKS
+# networkd FRAMEWORKS
 #
-network_FRAMEWORKS += \
+networkd_FRAMEWORKS += \
 $${rete_FRAMEWORKS} \
 
-# network LIBS
+# networkd LIBS
 #
-network_LIBS += \
+networkd_LIBS += \
 $${rete_LIBS} \
 
 ########################################################################
