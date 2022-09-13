@@ -288,6 +288,10 @@ protected:
     /// ...accept_one_run
     virtual int accept_one_run(int argc, char_t** argv, char_t** env) {
         int err = 0;
+        bool accepted_one = this->accept_one();
+        this->set_accept_one();
+        err = all_accept_run(argc, argv, env);        
+        this->set_accept_one(accepted_one);
         return err;
     }
     virtual int before_accept_one_run(int argc, char_t** argv, char_t** env) {

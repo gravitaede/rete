@@ -66,7 +66,8 @@ public:
       default_request_(XOS_APP_CONSOLE_NETWORK_DEFAULT_REQUEST),
       request_(default_request_), 
       default_response_(XOS_APP_CONSOLE_NETWORK_DEFAULT_RESPONSE),
-      response_(default_response_) {
+      response_(default_response_), 
+      accept_one_(false), accept_done_(false), accept_restart_(false) {
     }
     virtual ~maint() {
     }
@@ -204,8 +205,50 @@ protected:
     /// ...request... / ...response...
     /// 
 
+    /// ...accept...
+    virtual bool& set_accept_many(bool to = false) {
+        bool& is_true = this->accept_one();
+        is_true = to;
+        return is_true;
+    }
+    virtual bool& set_accept_one(bool to = true) {
+        bool& is_true = this->accept_one();
+        is_true = to;
+        return is_true;
+    }
+    virtual bool& accept_one() const {
+        return (bool&)accept_one_;
+    }
+    
+    /// ...accept...
+    virtual bool& set_accept_continue(bool to = true) {
+        accept_done_ = !to;
+        return (bool&)accept_done_;
+    }
+    virtual bool& set_accept_done(bool to = true) {
+        accept_done_ = to;
+        return (bool&)accept_done_;
+    }
+    virtual bool& accept_done() const {
+        return (bool&)accept_done_;
+    }
+
+    /// ...accept...
+    virtual bool& set_accept_stop(bool to = true) {
+        accept_restart_ = !to;
+        return (bool&)accept_restart_;
+    }
+    virtual bool& set_accept_restart(bool to = true) {
+        accept_restart_ = to;
+        return (bool&)accept_restart_;
+    }
+    virtual bool& accept_restart() const {
+        return (bool&)accept_restart_;
+    }
+
 protected:
     string_t default_request_, request_, default_response_, response_;
+    bool accept_one_, accept_done_, accept_restart_;
 }; /// class maint
 typedef maint<> main;
 

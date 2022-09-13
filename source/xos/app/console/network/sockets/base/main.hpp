@@ -158,6 +158,8 @@ protected:
     /// ...recv_request
     virtual int recv_request(xos::network::sockets::interface& cn, int argc, char_t** argv, char_t**env) {
         int err = 0;
+        string_t& request = this->request();
+        err = this->all_recv_request(request, cn, argc, argv, env);
         return err;
     }
     virtual int before_recv_request(xos::network::sockets::interface& cn, int argc, char_t** argv, char** env) {
@@ -213,6 +215,8 @@ protected:
     /// ...send_response
     virtual int send_response(xos::network::sockets::interface& cn, int argc, char_t** argv, char_t**env) {
         int err = 0;
+        string_t& response = this->response();
+        err = this->all_send_response(cn, response, argc, argv, env);
         return err;
     }
     virtual int before_send_response(xos::network::sockets::interface& cn, int argc, char_t** argv, char** env) {
