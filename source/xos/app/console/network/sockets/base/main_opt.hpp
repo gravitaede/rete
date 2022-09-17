@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////
 /// Copyright (c) 1988-2022 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
@@ -111,6 +111,15 @@
     XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_PORT_OPTION \
     XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_RELAY_HOST_OPTION \
     XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_RELAY_PORT_OPTION \
+
+///////////////////////////////////////////////////////////////////////
+#define XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_HOST_LOGGING_OPTIONS_CHARS \
+   XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_HOST_OPTIONS_CHARS_EXTEND \
+   XOS_APP_CONSOLE_NETWORK_BASE_MAIN_LOGGING_OPTIONS_CHARS
+
+#define XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_HOST_LOGGING_OPTIONS_OPTIONS \
+   XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_HOST_OPTIONS_OPTIONS_EXTEND \
+   XOS_APP_CONSOLE_NETWORK_BASE_MAIN_LOGGING_OPTIONS_OPTIONS
 
 ///////////////////////////////////////////////////////////////////////
 #define XOS_APP_CONSOLE_NETWORK_SOCKETS_BASE_MAIN_HOST_OPTIONS_CHARS \
@@ -252,6 +261,10 @@ protected:
         run_ = &derives::all_sockets_run;
         return err;
     }
+    virtual int on_set_sockets_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
 
     /// ...connect_run
     virtual int connect_run(int argc, char_t** argv, char_t** env) {
@@ -280,7 +293,9 @@ protected:
     virtual int set_connect_run(int argc, char_t** argv, char_t** env) {
         int err = 0;
         if (!(err = set_sockets_run(argc, argv, env))) {
-            sockets_run_ = &derives::all_connect_run;
+            if (!(err = on_set_sockets_run(argc, argv, env))) {
+                sockets_run_ = &derives::all_connect_run;
+            }
         }
         return err;
     }
@@ -316,7 +331,9 @@ protected:
     virtual int set_accept_one_run(int argc, char_t** argv, char_t** env) {
         int err = 0;
         if (!(err = set_sockets_run(argc, argv, env))) {
-            sockets_run_ = &derives::all_accept_one_run;
+            if (!(err = on_set_sockets_run(argc, argv, env))) {
+                sockets_run_ = &derives::all_accept_one_run;
+            }
         }
         return err;
     }
@@ -348,7 +365,9 @@ protected:
     virtual int set_accept_run(int argc, char_t** argv, char_t** env) {
         int err = 0;
         if (!(err = set_sockets_run(argc, argv, env))) {
-            sockets_run_ = &derives::all_accept_run;
+            if (!(err = on_set_sockets_run(argc, argv, env))) {
+                sockets_run_ = &derives::all_accept_run;
+            }
         }
         return err;
     }
