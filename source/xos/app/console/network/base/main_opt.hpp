@@ -36,6 +36,19 @@
     XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTARG_RESULT, \
     XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTVAL_C}, \
 
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPT XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPT
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTARG_REQUIRED XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTARG_REQUIRED
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTARG_RESULT XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTARG_RESULT
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTARG XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTARG
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTUSE XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTUSE
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTVAL_S "R::"
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTVAL_C 'R'
+#define XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTION \
+   {XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPT, \
+    XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTARG_REQUIRED, \
+    XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTARG_RESULT, \
+    XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTVAL_C}, \
+
 #define XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPT "response"
 #define XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_OPTIONAL
 #define XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTARG_RESULT 0
@@ -48,6 +61,19 @@
     XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTARG_REQUIRED, \
     XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTARG_RESULT, \
     XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTVAL_C}, \
+
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPT XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPT
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTARG_REQUIRED XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTARG_REQUIRED
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTARG_RESULT XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTARG_RESULT
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTARG XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTARG
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTUSE XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTUSE
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTVAL_S "S::"
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTVAL_C 'S'
+#define XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTION \
+   {XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPT, \
+    XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTARG_REQUIRED, \
+    XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTARG_RESULT, \
+    XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTVAL_C}, \
 
 ///////////////////////////////////////////////////////////////////////
 #define XOS_APP_CONSOLE_NETWORK_BASE_MAIN_REQUEST_OPTIONS_CHARS_EXTEND \
@@ -189,6 +215,10 @@ protected:
         run_ = &derives::all_output_request_run;
         return err;
     }
+    virtual int on_set_output_request_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
 
     /// ...output_response_run
     virtual int output_response_run(int argc, char_t** argv, char_t** env) {
@@ -219,6 +249,10 @@ protected:
         run_ = &derives::all_output_response_run;
         return err;
     }
+    virtual int on_set_output_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
 
     /// ...option...
     virtual int on_set_request_option
@@ -245,6 +279,9 @@ protected:
             if (!(err = on_set_request_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_request_option_set(optarg, optind, argc, argv, env))) {
                     if (!(err = set_output_request_run(argc, argv, env))) {
+                        if (!(err = on_set_output_request_run(argc, argv, env))) {
+                        } else {
+                        }
                     } else {
                     }
                 } else {
@@ -253,6 +290,9 @@ protected:
             }
         } else {
             if (!(err = set_output_request_run(argc, argv, env))) {
+                if (!(err = on_set_output_request_run(argc, argv, env))) {
+                } else {
+                }
             } else {
             }
         }
@@ -287,6 +327,9 @@ protected:
             if (!(err = on_set_response_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_response_option_set(optarg, optind, argc, argv, env))) {
                     if (!(err = set_output_response_run(argc, argv, env))) {
+                        if (!(err = on_set_output_response_run(argc, argv, env))) {
+                        } else {
+                        }
                     } else {
                     }
                 } else {
@@ -295,6 +338,9 @@ protected:
             }
         } else {
             if (!(err = set_output_response_run(argc, argv, env))) {
+                if (!(err = on_set_output_response_run(argc, argv, env))) {
+                } else {
+                }
             } else {
             }
         }
@@ -314,9 +360,11 @@ protected:
         switch(optval) {
 
         case XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTVAL_C:
+        case XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTVAL_C:
             err = this->on_request_option(optval, optarg, optname, optind, argc, argv, env);
             break;
         case XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTVAL_C:
+        case XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTVAL_C:
             err = this->on_response_option(optval, optarg, optname, optind, argc, argv, env);
             break;
 
@@ -330,9 +378,11 @@ protected:
         switch(longopt->val) {
 
         case XOS_APP_CONSOLE_NETWORK_MAIN_REQUEST_OPTVAL_C:
+        case XOS_APP_CONSOLE_NETWORK_MAIN_QUEST_OPTVAL_C:
             chars = this->request_option_usage(optarg, longopt);
             break;
         case XOS_APP_CONSOLE_NETWORK_MAIN_RESPONSE_OPTVAL_C:
+        case XOS_APP_CONSOLE_NETWORK_MAIN_SPONSE_OPTVAL_C:
             chars = this->response_option_usage(optarg, longopt);
             break;
 

@@ -65,6 +65,7 @@ public:
     /// constructor / destructor
     maint()
     : run_(0), 
+      crlf2_endof_message_("\r\n\r\n"),
       default_message_(XOS_APP_CONSOLE_PROTOCOL_TEXT_DEFAULT_MESSAGE),
       message_(default_message_), 
       default_reply_(XOS_APP_CONSOLE_PROTOCOL_TEXT_DEFAULT_REPLY),
@@ -116,8 +117,38 @@ protected:
     }
 
     /// ...option...
-    virtual int on_set_message_option
-    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+    int (derives::*on_set_message_option_)(string_t& message, const char_t* optarg, int optind, int argc, char_t** argv, char_t** env);
+    virtual int on_set_message_option(const char_t* optarg, int optind, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            string_t& message = this->message();
+            if (on_set_message_option_) {
+                err = (this->*on_set_message_option_)(message, optarg, optind, argc, argv, env);
+            } else {
+                err = file_on_set_string_text_message_option(message, optarg, optind, argc, argv, env);
+            }
+        }
+        return err;
+    }
+
+    /// ...option...
+    int (derives::*on_set_reply_option_)(string_t& reply, const char_t* optarg, int optind, int argc, char_t** argv, char_t** env);
+    virtual int on_set_reply_option(const char_t* optarg, int optind, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            string_t& reply = this->reply();
+            if (on_set_reply_option_) {
+                err = (this->*on_set_reply_option_)(reply, optarg, optind, argc, argv, env);
+            } else {
+                err = file_on_set_string_text_message_option(reply, optarg, optind, argc, argv, env);
+            }
+        }
+        return err;
+    }
+
+    /// ...on_set_string_text_message_option
+    virtual int file_on_set_string_text_message_option
+    (string_t& message, const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
         if ((optarg) && (optarg[0])) {
             xos::io::crt::file::char_reader file;
@@ -127,7 +158,6 @@ protected:
                 xos::io::crt::file::char_reader::char_t c = 0;
                 ssize_t amount = 0, count = 0;
                 if (0 < (amount = file.read(&c, 1))) {
-                    string_t& message = this->message();
                     message.clear();
                     do {
                         char_t message_c = ((char_t)c);
@@ -141,35 +171,96 @@ protected:
         }
         return err;
     }
-
-    /// ...option...
-    virtual int on_set_reply_option
-    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+    virtual int string_on_set_string_text_message_option
+    (string_t& message, const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
         if ((optarg) && (optarg[0])) {
-            xos::io::crt::file::char_reader file;
-
-            this->errlln("file.open(\"", optarg, "\")...", null);
-            if ((file.open(optarg))) {
-                xos::io::crt::file::char_reader::char_t c = 0;
-                ssize_t amount = 0, count = 0;
-                if (0 < (amount = file.read(&c, 1))) {
-                    string_t& reply = this->reply();
-                    reply.clear();
-                    do {
-                        char_t reply_c = ((char_t)c);
-                        reply.append(&reply_c, 1);
-                        count += amount;
-                    } while (0 < (amount = file.read(&c, 1)));
-                }
-                this->errlln("...file.close(\"", optarg, "\")...", null);
-                file.close();
-            }
+            message.assign(optarg);
         }
         return err;
     }
 
+    /// set...on_set_message_option
+    virtual int set_file_on_set_message_option(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        on_set_message_option_ = &derives::file_on_set_string_text_message_option;
+        return err;
+    }
+    virtual int set_string_on_set_message_option(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        on_set_message_option_ = &derives::string_on_set_string_text_message_option;
+        return err;
+    }
+
+    /// set...on_set_reply_option
+    virtual int set_file_on_set_reply_option(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        on_set_reply_option_ = &derives::file_on_set_string_text_message_option;
+        return err;
+    }
+    virtual int set_string_on_set_reply_option(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        on_set_reply_option_ = &derives::string_on_set_string_text_message_option;
+        return err;
+    }
+
+    /// ...option...
+    virtual int on_file_input_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = extends::on_file_input_option_set(optarg, optind, argc, argv, env))) {
+            if (!(err = set_file_on_set_message_option(argc, argv, env))) {
+                if (!(err = set_file_on_set_reply_option(argc, argv, env))) {
+                }
+            }
+        }
+        return err;
+    }
+    virtual int on_string_input_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = extends::on_string_input_option_set(optarg, optind, argc, argv, env))) {
+            if (!(err = set_string_on_set_message_option(argc, argv, env))) {
+                if (!(err = set_string_on_set_reply_option(argc, argv, env))) {
+                }
+            }
+        }
+        return err;
+    }
+    
     /// ...message...
+    virtual const char_t* crlf2_endof_message_chars(size_t& length) const {
+        string_t& message = this->crlf2_endof_message();
+        const char_t* message_chars = 0;
+        message_chars = message.has_chars(length);
+        return message_chars;
+    }
+    virtual const char_t* crlf2_endof_message_chars() const {
+        string_t& message = this->crlf2_endof_message();
+        const char_t* message_chars = 0;
+        message_chars = message.has_chars();
+        return message_chars;
+    }
+    virtual string_t& crlf2_endof_message() const {
+        string_t& message = (string_t&)crlf2_endof_message_;
+        return message;
+    }
+    virtual const char_t* default_message_chars(size_t& length) const {
+        string_t& message = this->default_message();
+        const char_t* message_chars = 0;
+        message_chars = message.has_chars(length);
+        return message_chars;
+    }
+    virtual const char_t* default_message_chars() const {
+        string_t& message = this->default_message();
+        const char_t* message_chars = 0;
+        message_chars = message.has_chars();
+        return message_chars;
+    }
+    virtual string_t& default_message() const {
+        string_t& message = (string_t&)default_message_;
+        return message;
+    }
     virtual string_t& set_message(const string_t& to) {
         string_t& message = this->message();
         message.assign(to);
@@ -201,18 +292,24 @@ protected:
         string_t& message = (string_t&)message_;
         return message;
     }
-    virtual const char_t* default_message_chars() const {
-        string_t& message = this->default_message();
-        const char_t* message_chars = 0;
-        message_chars = message.has_chars();
-        return message_chars;
-    }
-    virtual string_t& default_message() const {
-        string_t& message = (string_t&)default_message_;
-        return message;
-    }
 
     /// ...reply...
+    virtual const char_t* default_reply_chars(size_t& length) const {
+        string_t& reply = this->default_reply();
+        const char_t* reply_chars = 0;
+        reply_chars = reply.has_chars(length);
+        return reply_chars;
+    }
+    virtual const char_t* default_reply_chars() const {
+        string_t& reply = this->default_reply();
+        const char_t* reply_chars = 0;
+        reply_chars = reply.has_chars();
+        return reply_chars;
+    }
+    virtual string_t& default_reply() const {
+        string_t& reply = (string_t&)default_reply_;
+        return reply;
+    }
     virtual string_t& set_reply(const string_t& to) {
         string_t& reply = this->reply();
         reply.assign(to);
@@ -244,19 +341,9 @@ protected:
         string_t& reply = (string_t&)reply_;
         return reply;
     }
-    virtual const char_t* default_reply_chars() const {
-        string_t& reply = this->default_reply();
-        const char_t* reply_chars = 0;
-        reply_chars = reply.has_chars();
-        return reply_chars;
-    }
-    virtual string_t& default_reply() const {
-        string_t& reply = (string_t&)default_reply_;
-        return reply;
-    }
 
 protected:
-    string_t default_message_, message_, default_reply_, reply_;
+    string_t crlf2_endof_message_, default_message_, message_, default_reply_, reply_;
 }; /// class maint
 typedef maint<> main;
 

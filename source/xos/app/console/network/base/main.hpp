@@ -22,6 +22,7 @@
 #define XOS_APP_CONSOLE_NETWORK_BASE_MAIN_HPP
 
 #include "xos/app/console/network/base/main_opt.hpp"
+#include "xos/io/crt/file/reader.hpp"
 
 #define XOS_APP_CONSOLE_NETWORK_DEFAULT_REQUEST \
     "GET /hello HTTP/1.0\r\n" \
@@ -110,6 +111,72 @@ protected:
         const char_t* chars = 0;
         if ((chars = this->response_chars(length))) {
             this->out(chars, length);
+        }
+        return err;
+    }
+
+    /// ...on_set_request_option
+    int (derives::*on_set_request_option_)(string_t& request, const char_t* optarg, int optind, int argc, char_t** argv, char_t** env);
+    virtual int on_set_request_option(const char_t* optarg, int optind, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            string_t& request = this->request();
+            if (on_set_request_option_) {
+                err = (this->*on_set_request_option_)(request, optarg, optind, argc, argv, env);
+            } else {
+                err = this->file_on_set_message_string_option(request, optarg, optind, argc, argv, env);
+            }
+        }
+        return err;
+    }
+
+    /// ...on_set_response_option
+    int (derives::*on_set_response_option_)(string_t& response, const char_t* optarg, int optind, int argc, char_t** argv, char_t** env);
+    virtual int on_set_response_option(const char_t* optarg, int optind, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            string_t& response = this->response();
+            if (on_set_response_option_) {
+                err = (this->*on_set_response_option_)(response, optarg, optind, argc, argv, env);
+            } else {
+                err = this->file_on_set_message_string_option(response, optarg, optind, argc, argv, env);
+            }
+        }
+        return err;
+    }
+
+    /// ...on_set_message_string_option
+    virtual int file_on_set_message_string_option
+    (string_t& string, const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            xos::io::crt::file::char_reader file;
+
+            this->errlln("file.open(\"", optarg, "\")...", null);
+            if ((file.open(optarg))) {
+                xos::io::crt::file::char_reader::char_t c = 0;
+                ssize_t amount = 0, count = 0;
+                if (0 < (amount = file.read(&c, 1))) {
+                    string.clear();
+                    do {
+                        char_t string_c = ((char_t)c);
+                        string.append(&string_c, 1);
+                        count += amount;
+                    } while (0 < (amount = file.read(&c, 1)));
+                }
+                this->errlln("...file.close(\"", optarg, "\")...", null);
+                file.close();
+            }
+        } else {
+        }
+        return err;
+    }
+    virtual int string_on_set_message_string_option
+    (string_t& string, const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            string.assign(optarg);
+        } else {
         }
         return err;
     }

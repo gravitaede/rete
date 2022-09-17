@@ -249,6 +249,10 @@ protected:
         run_ = &derives::all_output_message_run;
         return err;
     }
+    virtual int output_message_run_set(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
 
     /// ...output_reply_run
     virtual int output_reply_run(int argc, char_t** argv, char_t** env) {
@@ -277,6 +281,10 @@ protected:
     virtual int set_output_reply_run(int argc, char_t** argv, char_t** env) {
         int err = 0;
         run_ = &derives::all_output_reply_run;
+        return err;
+    }
+    virtual int output_reply_run_set(int argc, char_t** argv, char_t** env) {
+        int err = 0;
         return err;
     }
 
@@ -311,11 +319,15 @@ protected:
             if (!(err = on_set_message_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_message_option_set(optarg, optind, argc, argv, env))) {
                     if (!(err = set_output_message_run(argc, argv, env))) {
+                        if (!(err = output_message_run_set(argc, argv, env))) {
+                        }
                     }
                 }
             }
         } else {
             if (!(err = set_output_message_run(argc, argv, env))) {
+                if (!(err = output_message_run_set(argc, argv, env))) {
+                }
             }
         }
         return err;
@@ -345,11 +357,15 @@ protected:
             if (!(err = on_set_reply_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_reply_option_set(optarg, optind, argc, argv, env))) {
                     if (!(err = set_output_reply_run(argc, argv, env))) {
+                        if (!(err = output_reply_run_set(argc, argv, env))) {
+                        }
                     }
                 }
             }
         } else {
             if (!(err = set_output_reply_run(argc, argv, env))) {
+                if (!(err = output_reply_run_set(argc, argv, env))) {
+                }
             }
         }
         return err;
