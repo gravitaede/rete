@@ -13,48 +13,48 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: textnet.pri
+#   File: textnetd.pri
 #
 # Author: $author$
-#   Date: 9/16/2022
+#   Date: 9/17/2022
 #
-# generic QtCreator project .pri file for framework rete executable textnet
+# generic QtCreator project .pri file for framework rete executable textnetd
 ########################################################################
 
 ########################################################################
-# textnet
+# textnetd
 
-# textnet TARGET
+# textnetd TARGET
 #
-textnet_TARGET = textnet
+textnetd_TARGET = textnetd
 
-# textnet INCLUDEPATH
+# textnetd INCLUDEPATH
 #
-textnet_INCLUDEPATH += \
+textnetd_INCLUDEPATH += \
 $${rete_INCLUDEPATH} \
 
-# textnet DEFINES
+# textnetd DEFINES
 #
-textnet_DEFINES += \
+textnetd_DEFINES += \
 $${rete_DEFINES} \
 DEFAULT_LOGGING_LEVELS_ERROR \
 XOS_CONSOLE_MAIN_MAIN \
 
 ########################################################################
-# textnet OBJECTIVE_HEADERS
+# textnetd OBJECTIVE_HEADERS
 #
-#textnet_OBJECTIVE_HEADERS += \
+#textnetd_OBJECTIVE_HEADERS += \
 #$${RETE_SRC}/xos/app/console/protocol/text/main.hh \
 
-# textnet OBJECTIVE_SOURCES
+# textnetd OBJECTIVE_SOURCES
 #
-#textnet_OBJECTIVE_SOURCES += \
+#textnetd_OBJECTIVE_SOURCES += \
 #$${RETE_SRC}/xos/app/console/protocol/text/main.mm \
 
 ########################################################################
-# textnet HEADERS
+# textnetd HEADERS
 #
-textnet_HEADERS += \
+textnetd_HEADERS += \
 $${RETE_SRC}/xos/network/sockets/interfaces.hpp \
 $${RETE_SRC}/xos/network/sockets/os/interfaces.hpp \
 \
@@ -83,22 +83,24 @@ $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/base/main_opt.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/base/main.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/client/main_opt.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/client/main.hpp \
+$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/server/main_opt.hpp \
+$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/server/main.hpp \
 
-# textnet SOURCES
+# textnetd SOURCES
 #
-textnet_SOURCES += \
-$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/client/main_opt.cpp \
-$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/client/main.cpp \
+textnetd_SOURCES += \
+$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/server/main_opt.cpp \
+$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/server/main.cpp \
 
 ########################################################################
-# textnet FRAMEWORKS
+# textnetd FRAMEWORKS
 #
-textnet_FRAMEWORKS += \
+textnetd_FRAMEWORKS += \
 $${rete_FRAMEWORKS} \
 
-# textnet LIBS
+# textnetd LIBS
 #
-textnet_LIBS += \
+textnetd_LIBS += \
 $${rete_LIBS} \
 
 ########################################################################
