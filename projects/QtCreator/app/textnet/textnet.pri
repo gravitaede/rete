@@ -83,6 +83,8 @@ $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/base/main_opt.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/base/main.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/client/main_opt.hpp \
 $${RETE_SRC}/xos/app/console/network/sockets/protocol/text/client/main.hpp \
+$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/server/main_opt.hpp \
+$${RETE_SRC}/xos/app/console/network/sockets/protocol/text/server/main.hpp \
 
 # textnet SOURCES
 #

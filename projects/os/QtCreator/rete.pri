@@ -20,7 +20,7 @@
 #
 # os specific QtCreator project .pri file for framework rete
 ########################################################################
-# Depends: rostra;nadir;fila;crono
+# Depends: bn;mp;rostra;nadir;fila;crono;cifra;talas
 
 UNAME = $$system(uname)
 
@@ -187,6 +187,107 @@ crono_LIBS += \
 -l$${CRONO_LIB_NAME} \
 
 ########################################################################
+# cifra
+CIFRA_THIRDPARTY_PKG_MAKE_BLD = $${CIFRA_THIRDPARTY_PKG}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+CIFRA_THIRDPARTY_PRJ_MAKE_BLD = $${OTHER_BLD}/$${CIFRA_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+CIFRA_THIRDPARTY_PKG_BLD = $${CIFRA_THIRDPARTY_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+CIFRA_THIRDPARTY_PRJ_BLD = $${OTHER_BLD}/$${CIFRA_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+CIFRA_PKG_BLD = $${OTHER_BLD}/$${CIFRA_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+CIFRA_PRJ_BLD = $${OTHER_BLD}/$${CIFRA_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PKG_MAKE_BLD}/lib
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PRJ_MAKE_BLD}/lib
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PKG_BLD}/lib
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PRJ_BLD}/lib
+CIFRA_LIB = $${CIFRA_PKG_BLD}/lib
+#CIFRA_LIB = $${CIFRA_PRJ_BLD}/lib
+#CIFRA_LIB = $${RETE_LIB}
+CIFRA_LIB_NAME = $${CIFRA_NAME}
+
+# cifra LIBS
+#
+cifra_LIBS += \
+-L$${CIFRA_LIB}/lib$${CIFRA_LIB_NAME} \
+-l$${CIFRA_LIB_NAME} \
+
+
+########################################################################
+# bn
+BN_THIRDPARTY_PKG_MAKE_BLD = $${BN_THIRDPARTY_PKG}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+BN_THIRDPARTY_PRJ_MAKE_BLD = $${OTHER_BLD}/$${BN_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+BN_THIRDPARTY_PKG_BLD = $${BN_THIRDPARTY_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+BN_THIRDPARTY_PRJ_BLD = $${OTHER_BLD}/$${BN_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+BN_PKG_BLD = $${OTHER_BLD}/$${BN_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+BN_PRJ_BLD = $${OTHER_BLD}/$${BN_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+#BN_LIB = $${BN_THIRDPARTY_PKG_MAKE_BLD}/lib
+#BN_LIB = $${BN_THIRDPARTY_PRJ_MAKE_BLD}/lib
+#BN_LIB = $${BN_THIRDPARTY_PKG_BLD}/lib
+#BN_LIB = $${BN_THIRDPARTY_PRJ_BLD}/lib
+#BN_LIB = $${BN_PKG_BLD}/lib
+#BN_LIB = $${BN_PRJ_BLD}/lib
+#BN_LIB = $${RETE_LIB}
+BN_LIB_NAME = $${BN_NAME}
+BN_LIB = $${CIFRA_LIB}
+
+# bn LIBS
+#
+bn_LIBS += \
+-L$${BN_LIB}/lib$${BN_LIB_NAME} \
+-l$${BN_LIB_NAME} \
+
+
+########################################################################
+# mp
+MP_THIRDPARTY_PKG_MAKE_BLD = $${MP_THIRDPARTY_PKG}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+MP_THIRDPARTY_PRJ_MAKE_BLD = $${OTHER_BLD}/$${MP_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+MP_THIRDPARTY_PKG_BLD = $${MP_THIRDPARTY_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+MP_THIRDPARTY_PRJ_BLD = $${OTHER_BLD}/$${MP_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+MP_PKG_BLD = $${OTHER_BLD}/$${MP_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+MP_PRJ_BLD = $${OTHER_BLD}/$${MP_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+#MP_LIB = $${MP_THIRDPARTY_PKG_MAKE_BLD}/lib
+#MP_LIB = $${MP_THIRDPARTY_PRJ_MAKE_BLD}/lib
+#MP_LIB = $${MP_THIRDPARTY_PKG_BLD}/lib
+#MP_LIB = $${MP_THIRDPARTY_PRJ_BLD}/lib
+#MP_LIB = $${MP_PKG_BLD}/lib
+#MP_LIB = $${MP_PRJ_BLD}/lib
+#MP_LIB = $${RETE_LIB}
+MP_LIB_NAME = $${MP_NAME}
+MP_LIB = $${CIFRA_LIB}
+
+# mp LIBS
+#
+mp_LIBS += \
+-L$${MP_LIB}/lib$${MP_LIB_NAME}z \
+-l$${MP_LIB_NAME}z \
+-L$${MP_LIB}/lib$${MP_LIB_NAME}n \
+-l$${MP_LIB_NAME}n \
+-L$${MP_LIB}/lib$${MP_LIB_NAME} \
+-l$${MP_LIB_NAME} \
+
+
+########################################################################
+# talas
+TALAS_THIRDPARTY_PKG_MAKE_BLD = $${TALAS_THIRDPARTY_PKG}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+TALAS_THIRDPARTY_PRJ_MAKE_BLD = $${OTHER_BLD}/$${TALAS_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/$${BUILD_CONFIG}
+TALAS_THIRDPARTY_PKG_BLD = $${TALAS_THIRDPARTY_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+TALAS_THIRDPARTY_PRJ_BLD = $${OTHER_BLD}/$${TALAS_THIRDPARTY_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+TALAS_PKG_BLD = $${OTHER_BLD}/$${TALAS_PKG}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+TALAS_PRJ_BLD = $${OTHER_BLD}/$${TALAS_PRJ}/build/$${RETE_BUILD}/QtCreator/$${BUILD_CONFIG}
+#TALAS_LIB = $${TALAS_THIRDPARTY_PKG_MAKE_BLD}/lib
+#TALAS_LIB = $${TALAS_THIRDPARTY_PRJ_MAKE_BLD}/lib
+#TALAS_LIB = $${TALAS_THIRDPARTY_PKG_BLD}/lib
+#TALAS_LIB = $${TALAS_THIRDPARTY_PRJ_BLD}/lib
+TALAS_LIB = $${TALAS_PKG_BLD}/lib
+#TALAS_LIB = $${TALAS_PRJ_BLD}/lib
+#TALAS_LIB = $${RETE_LIB}
+TALAS_LIB_NAME = $${TALAS_NAME}
+
+# talas LIBS
+#
+talas_LIBS += \
+-L$${TALAS_LIB}/lib$${TALAS_LIB_NAME} \
+-l$${TALAS_LIB_NAME} \
+
+########################################################################
 # rete
 
 # rete INCLUDEPATH
@@ -197,26 +298,43 @@ rete_INCLUDEPATH += \
 #
 rete_DEFINES += \
 
-# rete LIBS
+# rete os LIBS
 #
-rete_LIBS += \
-$${crono_LIBS} \
-$${fila_LIBS} \
-$${nadir_LIBS} \
-$${rostra_LIBS} \
-$${build_rete_LIBS} \
-
 contains(RETE_OS,macosx|linux) {
-rete_LIBS += \
+rete_os_LIBS += \
 -lpthread \
 -ldl
 } else {
 } # contains(RETE_OS,macosx|linux)
 
 contains(RETE_OS,linux) {
-rete_LIBS += \
+rete_os_LIBS += \
 -lrt
 } else {
 } # contains(RETE_OS,linux)
 
+# rete base LIBS
+#
+rete_base_LIBS += \
+$${crono_LIBS} \
+$${fila_LIBS} \
+$${nadir_LIBS} \
+$${rostra_LIBS} \
+
+# rete LIBS
+#
+rete_LIBS += \
+$${rete_base_LIBS} \
+$${build_rete_LIBS} \
+$${rete_os_LIBS} \
+
+# rete rsa LIBS
+#
+rete_rsa_LIBS += \
+$${rete_base_LIBS} \
+$${cifra_LIBS} \
+$${mp_LIBS} \
+$${bn_LIBS} \
+$${build_rete_LIBS} \
+$${rete_os_LIBS} \
 
