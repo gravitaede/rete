@@ -156,7 +156,7 @@ protected:
         if ((optarg) && (optarg[0])) {
             xos::io::crt::file::char_reader file;
 
-            this->errlln("file.open(\"", optarg, "\")...", null);
+            LOGGER_IS_LOGGED_INFO("file.open(\""<< optarg <<"\")...");
             if ((file.open(optarg))) {
                 xos::io::crt::file::char_reader::char_t c = 0;
                 ssize_t amount = 0, count = 0;
@@ -168,7 +168,7 @@ protected:
                         count += amount;
                     } while (0 < (amount = file.read(&c, 1)));
                 }
-                this->errlln("...file.close(\"", optarg, "\")...", null);
+                LOGGER_IS_LOGGED_INFO("...file.close(\""<< optarg <<"\")...");
                 file.close();
             }
         }
